@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="../css/admin.css">
+  <%- include('partials/head.ejs'); %>
+</head>
+
+<body>
+  <div class="content">
+    <div class="container">
+      <h2 class="mb-5"><a href="/admin/">Usuarios /</a><a href="/admin/planes">Planes / </a> <a href="/admin/receta">Recetas</a>
+        <a href="/admin/cerrarSesion" class="btn btn-danger btn-out">         
+          <i class="bi bi-box-arrow-in-right"></i>
+        </a>
+      </h2>
+      <div class="table-responsive">
+        <table class="table table-striped user-table">
+          <thead>
+            <tr>
+              <th scope="col">Codigo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Telefono</th>
+              <th scope="col" class="text-center">Estado</th>
+              <th scope="col">Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% plans.forEach((elements)=>{ %> <!-- Itera sobre una lista de planes -->
+              <tr>
+                <th scope="row">
+                  <%= elements.COD_PLAN %> <!-- Muestra el código del plan -->
+                </th>
+                <td>
+                  <%= elements.NOMBRE %>  <!-- Muestra el nombre del plan -->
+                </td>
+                <td>
+                  <%= elements.DESCRIPCION %> <!-- Muestra la descripción del plan -->
+                </td>
+                <td>
+                  <%= elements.TELEFONO %>  <!-- Muestra el teléfono del plan -->
+                </td>
+                <td>
+                  <% if(elements.ESTADO==1){ %> activo <% }else{ %> inactivo <% } %>  <!-- Muestra el estado del plan (activo o inactivo) -->
+                </td>
+                <form action="/admin/disable-plan?id=<%= elements.COD_PLAN %>&estado=<%= elements.ESTADO%>" method="POST"> <!-- Formulario para deshabilitar el plan -->
+                  <td>
+                    <% if(elements.ESTADO==1){ %> <!-- Si el plan está activo -->
+                      <input value="Inhabilitar" class="btn btn-danger" type="submit"></input><!-- Botón para inhabilitar el plan -->
+                      <% }else{ %>  <!-- Si el plan está inactivo -->
+                        <input class="btn btn-success" type="submit" value="Habilitar"> </input><!-- Botón para habilitar el plan -->
+                        <% } %>
+                  </td>
+                  </form>
+              </tr>
+
+              <% }) %>
+                <form id="generarForm" method="POST" action="/admin/generarPdfPlan"><!-- Formulario para generar un PDF del plan -->
+                  <input type="hidden" name="datos">
+                  <button class="btn btn-danger" type="submit">
+                    <i>PdsadDF</i><!-- Texto o ícono para el botón de generar PDF -->
+                  </button>
+                </form>
+                <form id="generarForm" method="POST" action="/admin/generarExcelPlan">  <!-- Formulario para generar un Excel del plan -->
+                  <input type="hidden" name="datos">
+                  <button class="btn btn-success" type="submit">
+                    <i>EXCEL</i><!-- Texto o ícono para el botón de generar Excel -->
+                  </button>
+                </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

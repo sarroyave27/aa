@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="../css/admin.css">
+  <%- include('partials/head.ejs'); %>
+</head>
+<body>
+  <div class="content">
+    <div class="container">
+      <h2 class="mb-5"><a href="/admin/">Usuarios /</a><a href="/admin/planes">Planes / </a> <a href="/admin/receta">Recetas</a>
+        <a href="/admin/cerrarSesion" class="btn btn-danger btn-out">         
+          <i class="bi bi-box-arrow-in-right"></i>  <!-- Icono de flecha derecha -->
+        </a>
+      </h2>
+        <div class="table-responsive">
+            <table class="table table-striped user-table">
+              <thead>
+                <tr>
+                  <th scope="col">Codigo</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">ID usuario</th>
+                  <th scope="col" class="text-center">Correo</th>
+                  <th scope="col" class="text-center">Accion</th>
+                </tr>
+              </thead>
+            <tbody>
+              <% recipes.forEach((elements)=>{ %> <!-- Iterar sobre una variable llamada 'recipes' y su contenido -->
+                <form action="/admin/disable-receta?id=<%= elements.COD_RECETA %>&estado=<%= elements.ESTADO%>" method="POST">  <!-- Formulario para enviar datos al servidor -->
+                  <tr>
+                      <th scope="row">
+                          <%= elements.COD_RECETA %>  <!-- Mostrar el valor de 'COD_RECETA' -->
+                        </th>
+                    <th scope="row">
+                      <%= elements.NOMBRE %>  <!-- Mostrar el valor de 'NOMBRE' -->
+                    </th>
+                    <td>
+                      <%= elements.DESCRIPCION %> <!-- Mostrar el valor de 'DESCRIPCION' -->
+                    </td>
+                    <td>
+                      <%= elements.COD_USUARIO %> <!-- Mostrar el valor de 'COD_USUARIO' -->
+                    </td>
+                    <td>
+                      <%= elements.CORREO %>  <!-- Mostrar el valor de 'CORREO' -->
+                    </td>
+                    <td>
+                      <% if(elements.ESTADO==1){ %> <!-- Si 'ESTADO' es 1, mostrar el botón "Inhabilitar" -->
+                        <input value="Inhabilitar" class="btn btn-danger" type="submit"></input>
+                        <% }else{ %>  <!-- De lo contrario, mostrar el botón "Habilitar" -->
+                          <input class="btn btn-success" type="submit" value="Habilitar">  </input>
+                          <% } %>
+                    </td>
+                  </tr>
+                </form>
+                <% }) %>  <!-- Finalizar el bucle 'forEach' -->
+                <form id="generarForm" method="POST" action="/admin/generarPdfReceta">
+                  <input type="hidden" name="datos">  <!-- Campo oculto para enviar datos al servidor -->
+                  <button class="btn btn-danger" type="submit">
+                    <i>PDF</i>  <!-- Icono de descarga en formato PDF -->
+                  </button>
+                </form>
+                <form id="generarForm" method="POST" action="/admin/generarExcelReceta">
+                  <input type="hidden" name="datos">  <!-- Campo oculto para enviar datos al servidor -->
+                  <button class="btn btn-success" type="submit">  
+                    <i>Excel</i> <!-- Icono de descarga en formato Excel -->
+                  </button>
+                </form>
+            </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

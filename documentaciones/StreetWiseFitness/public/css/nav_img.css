@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+.title{
+    font-family: 'Calistoga', cursive;
+    font-size: 65px;
+}
+.banner-image{
+    background-image: url(/img/Inicio.jpg);
+    background-size: cover;
+    margin-left: 1%;
+    border-radius: 15px;
+    width: 98%;
+    height: 100vh;
+}
+
+.txt{
+    text-align: left;
+    padding-top: 30%;
+    padding-left: 2%;
+}
+
+.txt a {
+    border-radius: 90px;
+}
